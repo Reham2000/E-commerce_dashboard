@@ -1,3 +1,4 @@
+<?php require_once('vendor/autoload.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,11 +27,13 @@
   <link rel="stylesheet" href="<?= $pluginsPath ?>daterangepicker/daterangepicker.css">
   <!-- summernote -->
   <link rel="stylesheet" href="<?= $pluginsPath ?>summernote/summernote-bs4.min.css">
+  <link rel="stylesheet" href="<?= $pluginsPath ?>toastr/toastr.min.css">
+  <script src="<?= $pluginsPath ?>toastr/toastr.min.js"></script>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
   <!-- Preloader -->
-  <div class="preloader flex-column justify-content-center align-items-center">
+  <!-- <div class="preloader flex-column justify-content-center align-items-center">
     <img class="animation__shake" src="<?= $imagesPath ?>AdminLTELogo.png" alt="AdminLTELogo" height="60" width="60">
-  </div>
+  </div> -->

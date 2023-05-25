@@ -32,5 +32,8 @@
 <script src="<?= $jsPath ?>demo.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="<?= $jsPath ?>pages/dashboard.js"></script>
+<script src="<?= $pluginsPath ?>toastr/toastr.js.map"></script>
+<script src="<?= $pluginsPath ?>toastr/toastr.min.js"></script>
+
 </body>
 </html>

@@ -8,10 +8,11 @@ class Validation {
     private $value;
     private array $errors = [];
     private array $oldValues = [];
+    private $changed;
 
     /**
      * Get the value of input
-     */ 
+     */
     public function getInput()
     {
         return $this->input;
@@ -21,7 +22,7 @@ class Validation {
      * Set the value of input
      *
      * @return  self
-     */ 
+     */
     public function setInput($input)
     {
         $this->input = $input;
@@ -31,7 +32,7 @@ class Validation {
 
     /**
      * Get the value of value
-     */ 
+     */
     public function getValue()
     {
         return $this->value;
@@ -41,17 +42,17 @@ class Validation {
      * Set the value of value
      *
      * @return  self
-     */ 
+     */
     public function setValue($value)
     {
         $this->value = $value;
-        $this->oldValues[$this->input] = $value; // ['first_name' => 'galal']  
+        $this->oldValues[$this->input] = $value; // ['first_name' => 'galal']
         return $this;
     }
 
     /**
      * Get the value of errors
-     */ 
+     */
     public function getErrors()
     {
         return $this->errors;
@@ -59,7 +60,7 @@ class Validation {
 
     /**
      * Get the value of error
-     */ 
+     */
     public function getError(string $input) :?string
     {
         if(isset($this->errors[$input])){
@@ -76,7 +77,7 @@ class Validation {
     }
     /**
      * Get the value of oldValues
-     */ 
+     */
     public function getOldValue(string $input) :?string
     {
         return $this->oldValues[$input] ?? null;
@@ -85,7 +86,7 @@ class Validation {
      * Set the value of errors
      *
      * @return  self
-     */ 
+     */
     public function setErrors($errors)
     {
         $this->errors = $errors;
@@ -141,7 +142,7 @@ class Validation {
         return $this;
     }
 
-    // unique 
+    // unique
     // exists
 
     public function unique(string $table,string $column)
@@ -180,6 +181,26 @@ class Validation {
         return $this;
     }
 
-    
+    public function isChanged($oldValue)
+    {
+        if($this->value == $oldValue)
+        {
+            $this->changed = 0;
+        }else
+        {
+            $this->changed = 1;
+        }
+        return $this;
+    }
 
+
+    /**
+     * Get the value of changed
+     */
+    public function getChanged()
+    {
+        return $this->changed;
+    }
+
+    
 }

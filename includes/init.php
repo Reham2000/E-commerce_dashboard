@@ -1,7 +1,7 @@
 <?php
 
 
-// $cssPath = " ";
+$dashboardImagesPath = "images/";
 $jsPath = "dist/js/";
 $imagesPath = "dist/img/";
 $pluginsPath = "plugins/";
