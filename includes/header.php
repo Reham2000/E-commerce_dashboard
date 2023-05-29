@@ -1,4 +1,8 @@
-<?php require_once('vendor/autoload.php'); ?>
+<?php
+ob_start();
+session_start();
+require_once('vendor/autoload.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

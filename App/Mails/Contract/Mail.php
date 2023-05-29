@@ -7,9 +7,9 @@ use PHPMailer\PHPMailer\SMTP;
 
 abstract class Mail
 {
-    protected const MAIL_FROM = 'nti67@outlook.com';
-    private const MAIL_PASSWORD = 'Nti2022##';
-    private const MAIL_HOST = 'smtp-mail.outlook.com';
+    protected const MAIL_FROM = 'websiteEmailTest2022';
+    private const MAIL_PASSWORD = 'websiteTest2022';
+    private const MAIL_HOST = 'smtp-mail.gmail.com';
     private const MAIL_PORT = 587;
     protected PHPMailer $mail;
     public function __construct()

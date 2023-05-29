@@ -8,7 +8,7 @@ class Admin extends Model implements Crud
 {
   private $id,$first_name,$last_name,$email,$password,$phone,$image,$gender,$verification_code,$expired_at,$status,$email_verified_at,$created_at,$updated_at;
   public function create(){
-    $query = "INSERT INTO `admins` (`first_name`, `last_name`, `email`, `password`, `phone`, `gender`, `verification_code`, `expired_at`) VALUES (?,?,?,?,?,?,?,?,?)";
+    $query = "INSERT INTO `admins` (`first_name`, `last_name`, `email`, `password`, `phone`, `gender`, `verification_code`, `expired_at`) VALUES (?,?,?,?,?,?,?,?)";
     $stmt = $this->conn->prepare($query);
     $stmt->bind_param('ssssssss',$this->first_name,$this->last_name,$this->email,$this->password,$this->phone,$this->gender,$this->verification_code,$this->expired_at);
     return $stmt->execute();
@@ -42,6 +42,21 @@ class Admin extends Model implements Crud
     $stmt->execute();
     return $stmt->get_result();
   }
+  public function checkCode()
+    {
+        $query = "SELECT * FROM admins WHERE email = ? AND verification_code = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('si',$this->email,$this->verification_code);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+    public function makeUserVerified()
+    {
+        $query = "UPDATE admins SET email_verified_at = ? WHERE email = ?";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bind_param('ss',$this->email_verified_at,$this->email);
+        return $stmt->execute();
+    }
   /**
    * Get the value of id
    */
