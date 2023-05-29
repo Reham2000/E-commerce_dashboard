@@ -202,5 +202,5 @@ class Validation {
         return $this->changed;
     }
 
-    
+
 }
