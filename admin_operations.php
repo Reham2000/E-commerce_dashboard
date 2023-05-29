@@ -11,7 +11,11 @@ use App\Http\Requests\Validation;
 $admin = new Admin;
 $validation = new Validation;
 
+if(isset($_GET['delete']) && is_numeric($_GET['delete'])){
+  $admin->setId($_GET['delete'])->delete();
+  header("location:admins.php");
 
+}
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   if (isset($_GET['update']) && is_numeric($_GET['update'])) {
     $adminData = $admin->setId($_GET['update'])->getAdminById($_GET['update'])->fetch_object();
@@ -103,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   <section class="content">
     <div class="container">
       <!-- Add Admin -->
+      <a href="admins.php" class="btn btn-secondary"><i class="fas fa-backward px-2"></i> Back </a>
       <div class="row p-3">
         <div class="col-md-5 col-sm-12 text-center my-5">
           <img src="<?= $dashboardImagesPath ?>add_user.png" alt="">
@@ -154,7 +159,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             <input type="submit" value="Update Admin" class="btn btn-info my-2 px-2">
           </form>
-        <?php } else { ?>
+        <?php } elseif(isset($_GET['delete'])) {
+          echo "delete is loading";
+        }
+        else { ?>
           <form action="" method="post" class="col-md-7 col-sm-12 px-3">
             <?= $error ?? '' ?>
             <div class="form-group">
