@@ -33,7 +33,10 @@ class User extends Model implements Crud {
     }
     public function delete()
     {
-        # code...
+      $query = "DELETE FROM `users` WHERE `id` = ?";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bind_param('i',$this->id);
+      return $stmt->execute();
     }
     public function getUserById()
     {
