@@ -10,7 +10,10 @@ class Address extends Model implements Crud
 
   }
   public function read(){
-
+    $query = "SELECT * FROM `addresses`";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->get_result();
   }
   public function update(){
 

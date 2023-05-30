@@ -64,6 +64,33 @@
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link">
+              <i class="fab fa-sellsy nav-icon"></i>
+
+
+              <p>
+                Sellers
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="sellers.php" class="nav-link">
+                  <!-- <i class="fas fa-users-cog nav-icon"></i> -->
+                  <i class="fab fa-sellsy nav-icon"></i>
+                  <p>All Sellers</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="seller_operations.php" class="nav-link">
+                <i class="fab fa-sellsy nav-icon"></i>
+
+                  <p>Add Seller</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
               <i class="fas fa-users nav-icon"></i>
 
               <p>
