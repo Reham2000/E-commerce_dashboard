@@ -8,7 +8,10 @@ class City extends Model implements Crud
 {
   private $id ,$name_en ,$name_ar ,$status ,$created_at ,$updated_at;
   public function create(){
-
+    $query = "INSERT INTO `cities` (`name_en`, `name_ar`) VALUES (?,?)";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param('ss',$this->name_en,$this->name_ar);
+    return $stmt->execute();
   }
   public function read(){
     $query = "SELECT * FROM `cities`";
@@ -20,7 +23,10 @@ class City extends Model implements Crud
 
   }
   public function delete(){
-
+    $query = "DELETE FROM `cities` WHERE `id` = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param('i',$this->id);
+    return $stmt->execute();
   }
   public function getCityById()
   {
