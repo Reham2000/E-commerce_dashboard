@@ -20,7 +20,10 @@ class City extends Model implements Crud
     return $stmt->get_result();
   }
   public function update(){
-
+    $query = "UPDATE `cities` SET `name_en` = ? , `name_ar` = ?  ,`status` = ? WHERE `id`= ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param('sssi',$this->name_en,$this->name_ar,$this->status,$this->id);
+    return $stmt->execute();
   }
   public function delete(){
     $query = "DELETE FROM `cities` WHERE `id` = ?";

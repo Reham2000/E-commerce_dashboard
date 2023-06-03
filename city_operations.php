@@ -19,25 +19,13 @@ if(isset($_GET['delete']) && is_numeric($_GET['delete'])){
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   if (isset($_GET['update']) && is_numeric($_GET['update'])) {
     $cityData = $city->setId($_GET['update'])->getCityById($_GET['update'])->fetch_object();
-    $validation->setInput('first_name')->setValue($_POST['first_name'])->isChanged($cityData->first_name);
+    $validation->setInput('name_en')->setValue($_POST['name_en'])->isChanged($cityData->name_en);
     if ($validation->getChanged() == '1') {
-      $validation->setInput('first_name')->setValue($_POST['first_name'])->required()->min(2)->max(32);
+      $validation->setInput('name_en')->setValue($_POST['name_en'])->required()->min(2)->max(32);
     }
-    $validation->setInput('last_name')->setValue($_POST['last_name'])->isChanged($cityData->last_name);
+    $validation->setInput('name_ar')->setValue($_POST['name_ar'])->isChanged($cityData->name_ar);
     if ($validation->getChanged() == '1') {
-      $validation->setInput('last_name')->setValue($_POST['last_name'])->required()->min(2)->max(32);
-    }
-    $validation->setInput('email')->setValue($_POST['email'])->isChanged($cityData->email);
-    if ($validation->getChanged() == '1') {
-      $validation->setInput('email')->setValue($_POST['email'])->required()->regex('/^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/')->unique('cities', 'email');
-    }
-    $validation->setInput('phone')->setValue($_POST['phone'])->isChanged($cityData->phone);
-    if ($validation->getChanged() == '1') {
-      $validation->setInput('phone')->setValue($_POST['phone'])->required()->regex('/^01[0125][0-9]{8}$/')->unique('cities', 'phone');
-    }
-    $validation->setInput('gender')->setValue($_POST['gender'])->isChanged($cityData->gender);
-    if ($validation->getChanged() == '1') {
-      $validation->setInput('gender')->setValue($_POST['gender'])->required()->in(['m', 'f']);
+      $validation->setInput('name_ar')->setValue($_POST['name_ar'])->required()->min(2)->max(32);
     }
     $validation->setInput('status')->setValue($_POST['status'])->isChanged($cityData->status);
     if ($validation->getChanged() == '1') {
