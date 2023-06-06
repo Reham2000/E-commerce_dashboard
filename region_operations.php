@@ -30,6 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     if ($validation->getChanged() == '1') {
       $validation->setInput('name_ar')->setValue($_POST['name_ar'])->required()->min(2)->max(32);
     }
+    $validation->setInput('city')->setValue($_POST['city'])->isChanged($regionData->city_id);
+    if ($validation->getChanged() == '1') {
+      $validation->setInput('city')->setValue($_POST['city'])->required()->in($citiesId);
+    }
     $validation->setInput('status')->setValue($_POST['status'])->isChanged($regionData->status);
     if ($validation->getChanged() == '1') {
       $validation->setInput('status')->setValue($_POST['status'])->required()->in(['1', '2']);
@@ -37,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     if (empty($validation->getErrors())) {
       // print_r($_POST);die;
-        $region->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setStatus($_POST['status']);
+        $region->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setCity_id($_POST['city'])->setStatus($_POST['status']);
         if ($region->setId($_GET['update'])->update()) {
           header("location:region_operations.php?update={$_GET['update']}");
           die;
@@ -99,14 +103,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
               <?= $validation->getMessage('name_ar') ?>
             </div>
             <select name="city" id="" class="form-control mb-1">
-              <option selected disabled value>Select Region City</option>
               <?php
               foreach($cities as $cityData){?>
                 <option <?= $cityData[0] == $regionData->city_id ? 'selected' : '' ?> value="<?= $cityData[0] ?>"><?= $cityData[1] ?> ( <?= $cityData[2] ?> )</option>
               <?php }
               ?>
             </select>
-            <?= $validation->getMessage('city') ?>
+            <?= $validation->getMessage('region') ?>
             <select name="status" id="" class="form-control mb-1">
               <option selected disabled value>Select Region Status</option>
               <option <?= $regionData->status == '1' ? 'selected' : '' ?> value="1">Active</option>

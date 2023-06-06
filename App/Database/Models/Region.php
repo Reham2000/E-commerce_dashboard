@@ -20,7 +20,10 @@ class Region extends Model implements Crud
     return $stmt->get_result();
   }
   public function update(){
-
+    $query = "UPDATE `regions` SET `name_en` = ? , `name_ar` = ?  ,`city_id` = ? ,`status` = ? WHERE `id`= ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param('sssii',$this->name_en,$this->name_ar,$this->city_id,$this->status,$this->id);
+    return $stmt->execute();
   }
   public function delete(){
 
