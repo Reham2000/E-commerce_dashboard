@@ -1,5 +1,5 @@
 <?php
-$title = "Cities";
+$title = "Regions";
 include "includes/init.php";
 include "includes/header.php";
 include "includes/navbar.php";
@@ -59,7 +59,7 @@ $regions = $region->read()->fetch_all();
                 <td>
                   <?php
                     $city = new City;
-                    $cityData = $city->setId($regionDate[3])->getCityById()->fetch_object();
+                    $cityData = $city->setId($regionDate[4])->getCityById()->fetch_object();
                     echo $cityData->name_en . " ( " . $cityData->name_ar . " )";
                   ?>
                 </td>
