@@ -20,19 +20,44 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $categoryData = $category->setId($_GET['update'])->getCategoryById()->fetch_object();
     $validation->setInput('name_en')->setValue($_POST['name_en'])->isChanged($categoryData->name_en);
     if ($validation->getChanged() == '1') {
-      $validation->setInput('name_en')->setValue($_POST['name_en'])->required()->min(2)->max(32);
+      $validation->setInput('name_en')->setValue($_POST['name_en'])->required()->min(2)->max(32)->unique('categories','name_en');
     }
     $validation->setInput('name_ar')->setValue($_POST['name_ar'])->isChanged($categoryData->name_ar);
     if ($validation->getChanged() == '1') {
-      $validation->setInput('name_ar')->setValue($_POST['name_ar'])->required()->min(2)->max(32);
+      $validation->setInput('name_ar')->setValue($_POST['name_ar'])->required()->min(2)->max(32)->unique('categories','name_ar');
     }
     $validation->setInput('status')->setValue($_POST['status'])->isChanged($categoryData->status);
     if ($validation->getChanged() == '1') {
       $validation->setInput('status')->setValue($_POST['status'])->required()->in(['1', '2']);
     }
-
+    if ($_FILES['image']['error'] == 0) {
+      $imageService = new Media;
+      $imageService->setFile($_FILES['image'])->size(1024 * 1024)->extension(['png', 'jpg', 'jpeg']);
+      if (empty($imageService->getErrors())) {
+        if (empty($validation->getErrors())) {
+          $imageService->upload($categoryPath);
+          $imageService->delete($categoryPath . $categoryData->image);
+          $category->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setImage($imageService->getFileName())->setStatus($_POST['status']);
+          if ($category->update()) {
+            header("location:category_operations.php?update={$_GET['update']}");
+            die;
+          } else {
+            $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
+          }
+        }
+      } else {
+        $imageError = "<p class='text-danger font-weight-bold'> Image is required </p>";
+      }
+    } else {
+      $category->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setStatus($_POST['status']);
+      if ($category->updateWithoutImage()) {
+        header("location:category_operations.php?update={$_GET['update']}");
+        die;
+      } else {
+        $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
+      }
+    }
     if (empty($validation->getErrors())) {
-      // print_r($_POST);die;
       $category->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setStatus($_POST['status']);
       if ($category->setId($_GET['update'])->update()) {
         header("location:category_operations.php?update={$_GET['update']}");
@@ -63,15 +88,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $imageError = "<p class='text-danger font-weight-bold'> Image is required </p>";
       }
     } else {
-      $imageError = "<p class='text-danger font-weight-bold'> Image not uploaded </p>";
-
-      // $category->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setImage(null);
-      // if ($category->create()) {
-      //   header("location:categories.php");
-      //   die;
-      // } else {
-      //   $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
-      // }
+      $category->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setImage(null);
+      if ($category->create()) {
+        header("location:categories.php");
+        die;
+      } else {
+        $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
+      }
     }
   }
 }

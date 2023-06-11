@@ -20,13 +20,19 @@ class Category extends Model implements Crud {
         return $this->conn->query($query);
     }
     public function update(){
-      $query = "UPDATE `categories` SET `name_en` = ? , `name_ar` = ? ,`status` = ? WHERE `id`= ?";
+      $query = "UPDATE `categories` SET `name_en` = ? , `name_ar` = ? ,`image` = ? ,`status` = ? WHERE `id`= ?";
     $stmt = $this->conn->prepare($query);
-    $stmt->bind_param('sssi',$this->name_en,$this->name_ar,$this->status,$this->id);
+    $stmt->bind_param('ssssi',$this->name_en,$this->name_ar,$this->image,$this->status,$this->id);
     return $stmt->execute();
     }
     public function delete(){
 
+    }
+    public function updateWithoutImage(){
+      $query = "UPDATE `categories` SET `name_en` = ? , `name_ar` = ? ,`status` = ? WHERE `id`= ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param('sssi',$this->name_en,$this->name_ar,$this->status,$this->id);
+    return $stmt->execute();
     }
     public function getCategoryById()
     {
@@ -35,12 +41,6 @@ class Category extends Model implements Crud {
         $stmt->bind_param('i',$this->id);
         $stmt->execute();
         return $stmt->get_result();
-    }
-    public function updateImage(){
-      $query = "UPDATE `categories` SET `image` = ?  WHERE `id`= ?";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bind_param('si',$this->image,$this->id);
-    return $stmt->execute();
     }
     /**
      * Get the value of id
