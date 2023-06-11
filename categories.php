@@ -31,7 +31,7 @@ $categories = $category->read()->fetch_all();
         <div class="card-header">
           <h3 class="card-title">All <?= $title ?> In Our System</h3>
         </div>
-        <a href="category_operations.php" class=" mx-5 w-25 btn btn-success  mt-2"> Add New Region <i
+        <a href="category_operations.php" class=" mx-5 w-25 btn btn-success  mt-2"> Add New Category <i
             class="fas fa-user-plus pl-3"></i></a>
         <!-- /.card-header -->
         <div class="card-body">

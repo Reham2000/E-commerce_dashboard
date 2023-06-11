@@ -10,19 +10,38 @@ class Category extends Model implements Crud {
     private const NOT_ACTIVE = 0;
 
     public function create(){
-
+      $query = "INSERT INTO `categories` (`name_en`, `name_ar`,`image`) VALUES (?,?,?)";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bind_param('sss',$this->name_en,$this->name_ar,$this->image);
+      return $stmt->execute();
     }
     public function read(){
         $query = "SELECT * FROM categories";
         return $this->conn->query($query);
     }
     public function update(){
-
+      $query = "UPDATE `categories` SET `name_en` = ? , `name_ar` = ? ,`status` = ? WHERE `id`= ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param('sssi',$this->name_en,$this->name_ar,$this->status,$this->id);
+    return $stmt->execute();
     }
     public function delete(){
 
     }
-
+    public function getCategoryById()
+    {
+        $query = "SELECT * FROM categories WHERE id = ?";
+        $stmt =  $this->conn->prepare($query);
+        $stmt->bind_param('i',$this->id);
+        $stmt->execute();
+        return $stmt->get_result();
+    }
+    public function updateImage(){
+      $query = "UPDATE `categories` SET `image` = ?  WHERE `id`= ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param('si',$this->image,$this->id);
+    return $stmt->execute();
+    }
     /**
      * Get the value of id
      */
@@ -163,14 +182,7 @@ class Category extends Model implements Crud {
         return $this;
     }
 
-    public function getCategoryById()
-    {
-        $query = "SELECT * FROM categories WHERE id = ?";
-        $stmt =  $this->conn->prepare($query);
-        $stmt->bind_param('i',$this->id);
-        $stmt->execute();
-        return $stmt->get_result();
-    }
+
 
 
 }
