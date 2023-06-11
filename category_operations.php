@@ -12,8 +12,13 @@ use App\Http\Requests\Validation;
 $category = new Category;
 $validation = new Validation;
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
+  $categoryData = $category->setId($_GET['delete'])->getCategoryById()->fetch_object();
   $category->setId($_GET['delete'])->delete();
+  if(!is_null($categoryData->image)){
+    unlink($categoryPath . $categoryData->image);
+  }
   header("location:categories.php");
+  die;
 }
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
   if (isset($_GET['update']) && is_numeric($_GET['update'])) {
@@ -36,7 +41,9 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       if (empty($imageService->getErrors())) {
         if (empty($validation->getErrors())) {
           $imageService->upload($categoryPath);
-          $imageService->delete($categoryPath . $categoryData->image);
+          if(! is_null($categoryData->image)){
+            $imageService->delete($categoryPath . $categoryData->image);
+          }
           $category->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setImage($imageService->getFileName())->setStatus($_POST['status']);
           if ($category->update()) {
             header("location:category_operations.php?update={$_GET['update']}");
@@ -146,11 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
             <input type="submit" value="Update Category" class="btn btn-info my-2 px-2">
           </form>
-        <?php } elseif (isset($_GET['delete'])) {
-          $category->setId($_GET['delete'])->delete();
-          header("location:categories.php");
-          die;
-        } else { ?>
+        <?php } else { ?>
           <form action="" method="post" enctype="multipart/form-data" class="col-md-7 col-sm-12 px-3 mt-md-5">
             <?= $error ?? '' ?>
             <div class="form-group">
