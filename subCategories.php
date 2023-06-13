@@ -32,7 +32,7 @@ $subCategories = $subCategory->read()->fetch_all();
         <div class="card-header">
           <h3 class="card-title">All <?= $title ?> In Our System</h3>
         </div>
-        <a href="category_operations.php" class=" mx-5 w-25 btn btn-success  mt-2"> Add New Sub Category <i
+        <a href="subCategory_operations.php" class=" mx-5 w-25 btn btn-success  mt-2"> Add New Sub Category <i
             class="fas fa-user-plus pl-3"></i></a>
         <!-- /.card-header -->
         <div class="card-body">
@@ -73,10 +73,10 @@ $subCategories = $subCategory->read()->fetch_all();
                 <?php if($subCategoryDate[7] != ''){$subCategoryDate[7] = explode(' ' ,$subCategoryDate[7])[0];} ?>
                 <td><?= $subCategoryDate[7] ?? 'Not Updated yet' ?></td>
                 <td>
-                  <a href="category_operations.php?update=<?= $subCategoryDate[0] ?>" class="btn btn-info  mt-2">Update</a>
+                  <a href="subCategory_operations.php?update=<?= $subCategoryDate[0] ?>" class="btn btn-info  mt-2">Update</a>
                 </td>
                 <td>
-                  <a href="category_operations.php?delete=<?= $subCategoryDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
+                  <a href="subCategory_operations.php?delete=<?= $subCategoryDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
                 </td>
               </tr>
               <?php } ?>
