@@ -46,7 +46,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           }
           $category->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setImage($imageService->getFileName())->setStatus($_POST['status']);
           if ($category->update()) {
-            header("location:category_operations.php?update={$_GET['update']}");
+            $message = "<div class='alert alert-success text-center p-1' role='alert'><h4>Category Updated Successfully</h4></div>";
+            header("Refresh:5; url=category_operations.php?update={$_GET['update']}");
             die;
           } else {
             $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
@@ -132,6 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         ?>
           <form action="" method="post" enctype="multipart/form-data" class="col-md-7 col-sm-12 px-3 mt-md-5">
             <?= $error ?? '' ?>
+            <?= $message ?? '' ?>
             <div class="form-group">
               <input type="text" name="name_en" id="" value="<?= $categoryData->name_en ?>" class="form-control" placeholder="Enter category English Name ...">
               <?= $validation->getMessage('name_en') ?>

@@ -13,8 +13,8 @@ class Subcategory extends Model implements Crud {
 
     }
     public function read(){
-        $query = "SELECT id,name_en FROM categories WHERE status = ". self::ACTIVE;
-        return $this->conn->query($query);
+      $query = "SELECT * FROM subCategories";
+      return $this->conn->query($query);
     }
     public function update(){
 
@@ -25,7 +25,7 @@ class Subcategory extends Model implements Crud {
 
     /**
      * Get the value of id
-     */ 
+     */
     public function getId()
     {
         return $this->id;
@@ -35,7 +35,7 @@ class Subcategory extends Model implements Crud {
      * Set the value of id
      *
      * @return  self
-     */ 
+     */
     public function setId($id)
     {
         $this->id = $id;
@@ -45,7 +45,7 @@ class Subcategory extends Model implements Crud {
 
     /**
      * Get the value of name_en
-     */ 
+     */
     public function getName_en()
     {
         return $this->name_en;
@@ -55,7 +55,7 @@ class Subcategory extends Model implements Crud {
      * Set the value of name_en
      *
      * @return  self
-     */ 
+     */
     public function setName_en($name_en)
     {
         $this->name_en = $name_en;
@@ -65,7 +65,7 @@ class Subcategory extends Model implements Crud {
 
     /**
      * Get the value of name_ar
-     */ 
+     */
     public function getName_ar()
     {
         return $this->name_ar;
@@ -75,7 +75,7 @@ class Subcategory extends Model implements Crud {
      * Set the value of name_ar
      *
      * @return  self
-     */ 
+     */
     public function setName_ar($name_ar)
     {
         $this->name_ar = $name_ar;
@@ -85,7 +85,7 @@ class Subcategory extends Model implements Crud {
 
     /**
      * Get the value of status
-     */ 
+     */
     public function getStatus()
     {
         return $this->status;
@@ -95,7 +95,7 @@ class Subcategory extends Model implements Crud {
      * Set the value of status
      *
      * @return  self
-     */ 
+     */
     public function setStatus($status)
     {
         $this->status = $status;
@@ -105,7 +105,7 @@ class Subcategory extends Model implements Crud {
 
     /**
      * Get the value of image
-     */ 
+     */
     public function getImage()
     {
         return $this->image;
@@ -115,7 +115,7 @@ class Subcategory extends Model implements Crud {
      * Set the value of image
      *
      * @return  self
-     */ 
+     */
     public function setImage($image)
     {
         $this->image = $image;
@@ -125,7 +125,7 @@ class Subcategory extends Model implements Crud {
 
     /**
      * Get the value of created_at
-     */ 
+     */
     public function getCreated_at()
     {
         return $this->created_at;
@@ -135,7 +135,7 @@ class Subcategory extends Model implements Crud {
      * Set the value of created_at
      *
      * @return  self
-     */ 
+     */
     public function setCreated_at($created_at)
     {
         $this->created_at = $created_at;
@@ -145,7 +145,7 @@ class Subcategory extends Model implements Crud {
 
     /**
      * Get the value of updated_at
-     */ 
+     */
     public function getUpdated_at()
     {
         return $this->updated_at;
@@ -155,7 +155,7 @@ class Subcategory extends Model implements Crud {
      * Set the value of updated_at
      *
      * @return  self
-     */ 
+     */
     public function setUpdated_at($updated_at)
     {
         $this->updated_at = $updated_at;
@@ -163,11 +163,11 @@ class Subcategory extends Model implements Crud {
         return $this;
     }
 
-    
+
 
     /**
      * Get the value of category_id
-     */ 
+     */
     public function getCategory_id()
     {
         return $this->category_id;
@@ -177,7 +177,7 @@ class Subcategory extends Model implements Crud {
      * Set the value of category_id
      *
      * @return  self
-     */ 
+     */
     public function setCategory_id($category_id)
     {
         $this->category_id = $category_id;
@@ -199,5 +199,5 @@ class Subcategory extends Model implements Crud {
         $stmt->execute();
         return $stmt->get_result();
     }
-    
+
 }
