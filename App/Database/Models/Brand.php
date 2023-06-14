@@ -10,7 +10,10 @@ class Brand extends Model implements Crud {
     private const NOT_ACTIVE = 0;
 
     public function create(){
-
+      $query = "INSERT INTO `brands` (`name_en`, `name_ar`, `image`) VALUES (?,?,?)";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bind_param('sss', $this->name_en, $this->name_ar, $this->image);
+      return $stmt->execute();
     }
     public function read(){
         $query = "SELECT * FROM brands ";

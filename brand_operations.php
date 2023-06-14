@@ -14,7 +14,7 @@ $validation = new Validation;
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
   $brandData = $brand->setId($_GET['delete'])->getBrandById()->fetch_object();
   $brand->setId($_GET['delete'])->delete();
-  if(!is_null($brandData->image)){
+  if (!is_null($brandData->image)) {
     unlink($brandPath . $brandData->image);
   }
   header("location:brands.php");
@@ -25,11 +25,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $brandData = $brand->setId($_GET['update'])->getBrandById()->fetch_object();
     $validation->setInput('name_en')->setValue($_POST['name_en'])->isChanged($brandData->name_en);
     if ($validation->getChanged() == '1') {
-      $validation->setInput('name_en')->setValue($_POST['name_en'])->required()->min(2)->max(32)->unique('brands','name_en');
+      $validation->setInput('name_en')->setValue($_POST['name_en'])->required()->min(2)->max(32)->unique('brands', 'name_en');
     }
     $validation->setInput('name_ar')->setValue($_POST['name_ar'])->isChanged($brandData->name_ar);
     if ($validation->getChanged() == '1') {
-      $validation->setInput('name_ar')->setValue($_POST['name_ar'])->required()->min(2)->max(32)->unique('brands','name_ar');
+      $validation->setInput('name_ar')->setValue($_POST['name_ar'])->required()->min(2)->max(32)->unique('brands', 'name_ar');
     }
     $validation->setInput('status')->setValue($_POST['status'])->isChanged($brandData->status);
     if ($validation->getChanged() == '1') {
@@ -41,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       if (empty($imageService->getErrors())) {
         if (empty($validation->getErrors())) {
           $imageService->upload($brandPath);
-          if(! is_null($brandData->image)){
+          if (!is_null($brandData->image)) {
             $imageService->delete($brandPath . $brandData->image);
           }
           $brand->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setImage($imageService->getFileName())->setStatus($_POST['status']);
@@ -89,20 +89,14 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             header("location:brands.php");
             die;
           } else {
-            $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
+            $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong1</h4></div>";
           }
         }
       } else {
         $imageError = "<p class='text-danger font-weight-bold'> Image is required </p>";
       }
     } else {
-      $brand->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setImage(null);
-      if ($brand->create()) {
-        header("location:brands.php");
-        die;
-      } else {
-        $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
-      }
+      $imageError = "<p class='text-danger font-weight-bold'> Image is required </p>";
     }
   }
 }
