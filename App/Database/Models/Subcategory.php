@@ -16,7 +16,7 @@ class Subcategory extends Model implements Crud {
       return $stmt->execute();
     }
     public function read(){
-      $query = "SELECT * FROM subcategories";
+      $query = "SELECT * FROM subcategories ORDER BY `category_id`";
       return $this->conn->query($query);
     }
     public function update(){
@@ -26,7 +26,10 @@ class Subcategory extends Model implements Crud {
       return $stmt->execute();
     }
     public function delete(){
-
+      $query = "DELETE FROM `subcategories` WHERE `id` = ?";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bind_param('i', $this->id);
+      return $stmt->execute();
     }
     public function updateWithoutImage()
   {

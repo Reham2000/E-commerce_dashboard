@@ -20,9 +20,9 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
   $subCategoryData = $subCategory->setId($_GET['delete'])->getSubcategoryById()->fetch_object();
   $subCategory->setId($_GET['delete'])->delete();
   if (!is_null($subCategoryData->image)) {
-    unlink($categoryPath . $subCategoryData->image);
+    unlink($subCategoryPath . $subCategoryData->image);
   }
-  header("location:categories.php");
+  header("location:subCategories.php");
   die;
 }
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
