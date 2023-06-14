@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           $brand->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setImage($imageService->getFileName())->setStatus($_POST['status']);
           if ($brand->update()) {
             $message = "<div class='alert alert-success text-center p-1' role='alert'><h4>brand Updated Successfully</h4></div>";
-            header("Refresh:5; url=brand_operations.php?update={$_GET['update']}");
+            header("location:brand_operations.php?update={$_GET['update']}");
             die;
           } else {
             $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
@@ -57,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $imageError = "<p class='text-danger font-weight-bold'> Image is required </p>";
       }
     } else {
+      if(empty($validation->getErrors())){
       $brand->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setStatus($_POST['status']);
       if ($brand->updateWithoutImage()) {
         header("location:brand_operations.php?update={$_GET['update']}");
@@ -64,6 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       } else {
         $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
       }
+    }
     }
     if (empty($validation->getErrors())) {
       $brand->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setStatus($_POST['status']);

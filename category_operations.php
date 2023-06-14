@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           $category->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setImage($imageService->getFileName())->setStatus($_POST['status']);
           if ($category->update()) {
             $message = "<div class='alert alert-success text-center p-1' role='alert'><h4>Category Updated Successfully</h4></div>";
-            header("Refresh:5; url=category_operations.php?update={$_GET['update']}");
+            header("location:category_operations.php?update={$_GET['update']}");
             die;
           } else {
             $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";

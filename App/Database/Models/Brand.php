@@ -20,7 +20,10 @@ class Brand extends Model implements Crud {
         return $this->conn->query($query);
     }
     public function update(){
-
+      $query = "UPDATE `brands` SET `name_en` = ? , `name_ar` = ? ,`image` = ? ,`status` = ? WHERE `id`= ?";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bind_param('ssssi', $this->name_en, $this->name_ar, $this->image, $this->status, $this->id);
+      return $stmt->execute();
     }
     public function delete(){
 
