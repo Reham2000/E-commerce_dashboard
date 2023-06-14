@@ -10,10 +10,13 @@ class Subcategory extends Model implements Crud {
     private const NOT_ACTIVE = 0;
 
     public function create(){
-
+      $query = "INSERT INTO `subcategories` ( `name_en`, `name_ar`, `image`, `category_id`) VALUES (?,?,?,?)";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bind_param('sssi', $this->name_en, $this->name_ar, $this->image,$this->category_id);
+      return $stmt->execute();
     }
     public function read(){
-      $query = "SELECT * FROM subCategories";
+      $query = "SELECT * FROM subcategories";
       return $this->conn->query($query);
     }
     public function update(){
@@ -22,7 +25,21 @@ class Subcategory extends Model implements Crud {
     public function delete(){
 
     }
-
+    public function updateWithoutImage()
+  {
+    $query = "UPDATE `subcategories` SET `name_en` = ? , `name_ar` = ? ,`status` = ? ,`category_id` WHERE `id`= ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param('sssii', $this->name_en, $this->name_ar, $this->status,$this->category_id, $this->id);
+    return $stmt->execute();
+  }
+    public function getSubcategoryById()
+    {
+      $query = "SELECT * FROM subcategories WHERE id = ?";
+      $stmt =  $this->conn->prepare($query);
+      $stmt->bind_param('i', $this->id);
+      $stmt->execute();
+      return $stmt->get_result();
+    }
     /**
      * Get the value of id
      */
