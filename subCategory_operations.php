@@ -15,6 +15,7 @@ $subCategory = new Subcategory;
 $validation = new Validation;
 $categories = $category->read()->fetch_all();
 $categoriesId = array_column($categories, 0);
+
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
   $subCategoryData = $subCategory->setId($_GET['delete'])->getSubcategoryById()->fetch_object();
   $subCategory->setId($_GET['delete'])->delete();
@@ -29,55 +30,52 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $subCategoryData = $subCategory->setId($_GET['update'])->getSubcategoryById()->fetch_object();
     $validation->setInput('name_en')->setValue($_POST['name_en'])->isChanged($subCategoryData->name_en);
     if ($validation->getChanged() == '1') {
-      $validation->setInput('name_en')->setValue($_POST['name_en'])->required()->min(2)->max(32)->unique('categories', 'name_en');
+      $validation->setInput('name_en')->setValue($_POST['name_en'])->required()->min(2)->max(32)->unique('subcategories', 'name_en');
     }
     $validation->setInput('name_ar')->setValue($_POST['name_ar'])->isChanged($subCategoryData->name_ar);
     if ($validation->getChanged() == '1') {
-      $validation->setInput('name_ar')->setValue($_POST['name_ar'])->required()->min(2)->max(32)->unique('categories', 'name_ar');
+      $validation->setInput('name_ar')->setValue($_POST['name_ar'])->required()->min(2)->max(32)->unique('subcategories', 'name_ar');
     }
     $validation->setInput('status')->setValue($_POST['status'])->isChanged($subCategoryData->status);
     if ($validation->getChanged() == '1') {
       $validation->setInput('status')->setValue($_POST['status'])->required()->in(['1', '2']);
+    }
+    $validation->setInput('category')->setValue($_POST['category'])->isChanged($subCategoryData->category_id);
+    if ($validation->getChanged() == '1') {
+      $validation->setInput('category')->setValue($_POST['category'])->required()->in($categoriesId);
     }
     if ($_FILES['image']['error'] == 0) {
       $imageService = new Media;
       $imageService->setFile($_FILES['image'])->size(1024 * 1024)->extension(['png', 'jpg', 'jpeg']);
       if (empty($imageService->getErrors())) {
         if (empty($validation->getErrors())) {
-          $imageService->upload($categoryPath);
+          $imageService->upload($subCategoryPath);
           if (!is_null($subCategoryData->image)) {
-            $imageService->delete($categoryPath . $subCategoryData->image);
+            $imageService->delete($subCategoryPath . $subCategoryData->image);
           }
-          $subCategory->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setImage($imageService->getFileName())->setStatus($_POST['status']);
+          $subCategory->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setImage($imageService->getFileName())->setStatus($_POST['status'])->setCategory_id($_POST['category']);
           if ($subCategory->update()) {
-            $message = "<div class='alert alert-success text-center p-1' role='alert'><h4>Category Updated Successfully</h4></div>";
-            header("Refresh:5; url=category_operations.php?update={$_GET['update']}");
+            header("location:subCategory_operations.php?update={$_GET['update']}");
             die;
           } else {
             $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
           }
         }
       } else {
-        $imageError = "<p class='text-danger font-weight-bold'> Image is required </p>";
+        $imageError = "<p class='text-danger font-weight-bold'> Image Not Uplaoded </p>";
       }
     } else {
-      $subCategory->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setStatus($_POST['status']);
-      if ($subCategory->updateWithoutImage()) {
-        header("location:category_operations.php?update={$_GET['update']}");
-        die;
-      } else {
-        $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
+      if (empty($validation->getErrors())) {
+        $subCategory->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setStatus($_POST['status'])->setCategory_id($_POST['category']);
+        if ($subCategory->setId($_GET['update'])->update()) {
+          header("location:subCategory_operations.php?update={$_GET['update']}");
+          die;
+        } else {
+          $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
+        }
       }
     }
-    if (empty($validation->getErrors())) {
-      $subCategory->setName_en($_POST['name_en'])->setName_ar($_POST['name_ar'])->setStatus($_POST['status']);
-      if ($subCategory->setId($_GET['update'])->update()) {
-        header("location:category_operations.php?update={$_GET['update']}");
-        die;
-      } else {
-        $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
-      }
-    }
+
   } else {
     // print_r($_POST);die;
     $validation->setInput('name_en')->setValue($_POST['name_en'])->required()->min(2)->max(32)->unique('subcategories', 'name_en');
@@ -130,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   <section class="content">
     <div class="container">
       <!-- Add category -->
-      <a href="categories.php" class="btn btn-secondary"><i class="fas fa-backward px-2"></i> Back </a>
+      <a href="subCategories.php" class="btn btn-secondary"><i class="fas fa-backward px-2"></i> Back </a>
       <div class="row p-3">
         <div class="col-md-5 col-sm-12 text-center my-5">
           <img src="<?= $dashboardImagesPath ?>location.svg" class="w-50" alt="">
@@ -155,6 +153,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
               <input type="file" name="image" class="form-control" id="">
               <?= $imageError ?? '' ?>
             </div>
+            <select name="category" id="" class="form-control mb-3">
+              <option selected disabled value>Select Category </option>
+              <?php foreach ($categories as $categoryData) { ?>
+                <option <?= $subCategoryData->category_id == $categoryData[0] ? 'selected' : ''  ?> value="<?= $categoryData[0] ?>"><?= $categoryData[1] . " ( " . $categoryData[2] . " ) "  ?></option>
+              <?php } ?>
+            </select>
+            <?= $categoryError ?? '' ?>
             <select name="status" id="" class="form-control mb-1">
               <option selected disabled value>Select Sub Category Status</option>
               <option <?= $subCategoryData->status == '1' ? 'selected' : '' ?> value="1">Active</option>
