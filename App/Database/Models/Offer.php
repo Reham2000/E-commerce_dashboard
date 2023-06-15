@@ -10,7 +10,10 @@ class Offer extends Model implements Crud
 {
     private $id,$title,$image,$discount,$discount_type,$start_at,$end_at,$created_at,$updated_at;
     public function create(){
-
+      $query = "INSERT INTO `offers` ( `title`, `image`, `discount`, `discount_type`, `start_at`, `end_at`) VALUES (?,?,?,?,?,?)";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bind_param('ssssss', $this->title, $this->image, $this->discount,$this->discount_type, $this->start_at, $this->end_at);
+      return $stmt->execute();
     }
     public function read(){
       $query = "SELECT * FROM offers ";
@@ -22,7 +25,20 @@ class Offer extends Model implements Crud
     public function delete(){
 
     }
-
+    public function updateWithoutImage()
+    {
+      $query = "UPDATE `offers` SET `title` = ? , `discount` = ? ,`discount_type` = ?, `start_at` = ?, `end_at` = ? WHERE `id`= ?";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bind_param('sssssi', $this->title, $this->discount, $this->discount_type, $this->start_at, $this->end_at, $this->id);
+      return $stmt->execute();
+    }
+    public function getOfferById(){
+      $query = "SELECT * FROM offers WHERE id = ?";
+      $stmt =  $this->conn->prepare($query);
+      $stmt->bind_param('i', $this->id);
+      $stmt->execute();
+      return $stmt->get_result();
+    }
     /**
      * Get the value of id
      */
