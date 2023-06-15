@@ -18,7 +18,10 @@ class Spec extends Model implements Crud
     return $this->conn->query($query);
   }
   public function update(){
-
+    $query = "UPDATE `specs` SET `name` = ? WHERE `id`= ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param('si', $this->name, $this->id);
+    return $stmt->execute();
   }
   public function delete(){
 
