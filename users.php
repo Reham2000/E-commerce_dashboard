@@ -51,7 +51,10 @@ $users = $user->read()->fetch_all();
               </tr>
             </thead>
             <tbody>
-              <?php
+            <?php
+              if(empty($users)){ ?>
+                <td colspan="16" class='text-center text-danger display-4 text-bold'>No <?= $title ?> To Show</td>
+              <?php }else{
                         foreach ($users as $userDate) {?>
               <tr class="text-center">
                 <td><?= $userDate[0] ?></td>
@@ -81,7 +84,7 @@ $users = $user->read()->fetch_all();
                   <a href="user_operations.php?delete=<?= $userDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
                 </td>
               </tr>
-              <?php } ?>
+              <?php } }?>
             </tbody>
             <tfoot>
               <tr class="text-center">

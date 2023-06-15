@@ -50,7 +50,10 @@ $regions = $region->read()->fetch_all();
               </tr>
             </thead>
             <tbody>
-              <?php
+            <?php
+              if(empty($regions)){ ?>
+                <td colspan="9" class='text-center text-danger display-4 text-bold'>No <?= $title ?> To Show</td>
+              <?php }else{
                         foreach ($regions as $regionDate) {?>
               <tr class="text-center">
                 <td><?= $regionDate[0] ?></td>
@@ -79,7 +82,7 @@ $regions = $region->read()->fetch_all();
                   <a href="region_operations.php?delete=<?= $regionDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
                 </td>
               </tr>
-              <?php } ?>
+              <?php } } ?>
             </tbody>
             <tfoot>
               <tr class="text-center">

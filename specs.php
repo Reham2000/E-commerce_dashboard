@@ -1,16 +1,16 @@
 <?php
-$title = "Brands";
+$title = "Specs";
 include "includes/init.php";
 include "includes/header.php";
 include "includes/navbar.php";
 include "includes/sidebar.php";
 
-use App\Database\Models\Brand;
+use App\Database\Models\Spec;
 
-$brand = new Brand;
-$brands = $brand->read()->fetch_all();
+$spec = new Spec;
+$specs = $spec->read()->fetch_all();
 
-// print_r($brands);die;
+// print_r($specs);die;
 
 ?>
 
@@ -49,30 +49,30 @@ $brands = $brand->read()->fetch_all();
               </tr>
             </thead>
             <tbody>
-            <?php
-              if(empty($brands)){ ?>
+              <?php
+              if(empty($specs)){ ?>
                 <td colspan="9" class='text-center text-danger display-4 text-bold'>No <?= $title ?> To Show</td>
               <?php }else{
-              foreach ($brands as $brandDate) {?>
+              foreach ($specs as $specDate) {?>
               <tr class="text-center">
-                <td><?= $brandDate[0] ?></td>
-                <td><img class="w-50" src="<?= !empty($brandDate[3]) ? $brandPath . $brandDate[3] : $brandPath . 'default.jpg' ?>" alt="<?= $brandDate[1] . " [ " . $brandDate[2] . " ] "  ?>"></td>
-                <td><?= $brandDate[1] ?></td>
-                <td><?= $brandDate[2] ?></td>
+                <td><?= $specDate[0] ?></td>
+                <td><img class="w-50" src="<?= !empty($specDate[3]) ? $specPath . $specDate[3] : $specPath . 'default.jpg' ?>" alt="<?= $specDate[1] . " [ " . $specDate[2] . " ] "  ?>"></td>
+                <td><?= $specDate[1] ?></td>
+                <td><?= $specDate[2] ?></td>
                 <td>
                   <?php
-                            if($brandDate[4] == '1'){echo "Active";}
+                            if($specDate[4] == '1'){echo "Active";}
                             else{echo "Not Active";}
                             ?>
                 </td>
-                <td><?= explode(' ' ,$brandDate[5])[0] ?></td>
-                <?php if($brandDate[6] != ''){$brandDate[6] = explode(' ' ,$brandDate[6])[0];} ?>
-                <td><?= $brandDate[6] ?? 'Not Updated yet' ?></td>
+                <td><?= explode(' ' ,$specDate[5])[0] ?></td>
+                <?php if($specDate[6] != ''){$specDate[6] = explode(' ' ,$specDate[6])[0];} ?>
+                <td><?= $specDate[6] ?? 'Not Updated yet' ?></td>
                 <td>
-                  <a href="brand_operations.php?update=<?= $brandDate[0] ?>" class="btn btn-info  mt-2">Update</a>
+                  <a href="brand_operations.php?update=<?= $specDate[0] ?>" class="btn btn-info  mt-2">Update</a>
                 </td>
                 <td>
-                  <a href="brand_operations.php?delete=<?= $brandDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
+                  <a href="brand_operations.php?delete=<?= $specDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
                 </td>
               </tr>
               <?php }} ?>

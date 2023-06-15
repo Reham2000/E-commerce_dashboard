@@ -54,7 +54,10 @@ $sellers = $seller->read()->fetch_all();
               </tr>
             </thead>
             <tbody>
-              <?php
+            <?php
+              if(empty($sellers)){ ?>
+                <td colspan="14" class='text-center text-danger display-4 text-bold'>No <?= $title ?> To Show</td>
+              <?php }else{
                         foreach ($sellers as $sellerDate) {?>
               <tr class="text-center">
                 <td><?= $sellerDate[0] ?></td>
@@ -84,7 +87,7 @@ $sellers = $seller->read()->fetch_all();
                   <a href="seller_operations.php?delete=<?= $sellerDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
                 </td>
               </tr>
-              <?php } ?>
+              <?php } } ?>
             </tbody>
             <tfoot>
               <tr class="text-center">

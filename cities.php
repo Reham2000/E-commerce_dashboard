@@ -48,7 +48,10 @@ $cities = $city->read()->fetch_all();
               </tr>
             </thead>
             <tbody>
-              <?php
+            <?php
+              if(empty($cities)){ ?>
+                <td colspan="8" class='text-center text-danger display-4 text-bold'>No <?= $title ?> To Show</td>
+              <?php }else{
                         foreach ($cities as $cityDate) {?>
               <tr class="text-center">
                 <td><?= $cityDate[0] ?></td>
@@ -70,7 +73,7 @@ $cities = $city->read()->fetch_all();
                   <a href="city_operations.php?delete=<?= $cityDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
                 </td>
               </tr>
-              <?php } ?>
+              <?php }} ?>
             </tbody>
             <tfoot>
               <tr class="text-center">

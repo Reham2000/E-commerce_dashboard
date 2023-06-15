@@ -51,7 +51,10 @@ $admins = $admin->read()->fetch_all();
               </tr>
             </thead>
             <tbody>
-              <?php
+            <?php
+              if(empty($admins)){ ?>
+                <td colspan="11" class='text-center text-danger display-4 text-bold'>No <?= $title ?> To Show</td>
+              <?php }else{
                         foreach ($admins as $adminDate) {?>
               <tr class="text-center">
                 <td><?= $adminDate[0] ?></td>
@@ -81,7 +84,7 @@ $admins = $admin->read()->fetch_all();
                   <a href="admin_operations.php?delete=<?= $adminDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
                 </td>
               </tr>
-              <?php } ?>
+              <?php } }?>
             </tbody>
             <tfoot>
               <tr class="text-center">

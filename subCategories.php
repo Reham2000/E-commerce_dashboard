@@ -52,8 +52,10 @@ $subCategories = $subCategory->read()->fetch_all();
               </tr>
             </thead>
             <tbody><pre>
-              <?php
-                // print_r($subCategories);die;
+            <?php
+              if(empty($subCategories)){ ?>
+                <td colspan="10" class='text-center text-danger display-4 text-bold'>No <?= $title ?> To Show</td>
+              <?php }else{
               foreach ($subCategories as $subCategoryDate) {
                 $category = $categoryObj->setId($subCategoryDate[5])->getCategoryById()->fetch_object();
               ?>
@@ -79,7 +81,7 @@ $subCategories = $subCategory->read()->fetch_all();
                   <a href="subCategory_operations.php?delete=<?= $subCategoryDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
                 </td>
               </tr>
-              <?php } ?>
+              <?php } } ?>
             </tbody>
             <tfoot>
               <tr class="text-center">

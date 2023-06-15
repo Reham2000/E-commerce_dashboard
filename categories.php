@@ -50,7 +50,10 @@ $categories = $category->read()->fetch_all();
               </tr>
             </thead>
             <tbody>
-              <?php
+            <?php
+              if(empty($categories)){ ?>
+                <td colspan="9" class='text-center text-danger display-4 text-bold'>No <?= $title ?> To Show</td>
+              <?php }else{
               foreach ($categories as $categoryDate) {?>
               <tr class="text-center">
                 <td><?= $categoryDate[0] ?></td>
@@ -73,7 +76,7 @@ $categories = $category->read()->fetch_all();
                   <a href="category_operations.php?delete=<?= $categoryDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
                 </td>
               </tr>
-              <?php } ?>
+              <?php } } ?>
             </tbody>
             <tfoot>
               <tr class="text-center">
