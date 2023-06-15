@@ -11,11 +11,7 @@ use App\Http\Requests\Validation;
 $spec = new Spec;
 $validation = new Validation;
 if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
-  $specData = $spec->setId($_GET['delete'])->getSpecById()->fetch_object();
   $spec->setId($_GET['delete'])->delete();
-  if (!is_null($specData->image)) {
-    unlink($specPath . $specData->image);
-  }
   header("location:specs.php");
   die;
 }

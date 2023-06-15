@@ -24,7 +24,10 @@ class Spec extends Model implements Crud
     return $stmt->execute();
   }
   public function delete(){
-
+    $query = "DELETE FROM `specs` WHERE `id` = ?";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bind_param('i', $this->id);
+    return $stmt->execute();
   }
   public function getSpecById(){
       $query = "SELECT * FROM specs WHERE id = ?";
