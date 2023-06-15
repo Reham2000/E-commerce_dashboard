@@ -30,7 +30,7 @@ $specs = $spec->read()->fetch_all();
         <div class="card-header">
           <h3 class="card-title">All <?= $title ?> In Our System</h3>
         </div>
-        <a href="brand_operations.php" class=" mx-5 w-25 btn btn-success  mt-2"> Add New Brand <i
+        <a href="spec_operations.php" class=" mx-5 w-25 btn btn-success  mt-2"> Add New spec <i
             class="fas fa-user-plus pl-3"></i></a>
         <!-- /.card-header -->
         <div class="card-body">
@@ -38,12 +38,7 @@ $specs = $spec->read()->fetch_all();
             <thead>
               <tr class="text-center">
                 <th>Id</th>
-                <th>Image</th>
-                <th>English Name</th>
-                <th>Arabic Name</th>
-                <th>Status</th>
-                <th>Created At</th>
-                <th>Updated At</th>
+                <th>Name</th>
                 <th>Update</th>
                 <th>Delete</th>
               </tr>
@@ -51,28 +46,17 @@ $specs = $spec->read()->fetch_all();
             <tbody>
               <?php
               if(empty($specs)){ ?>
-                <td colspan="9" class='text-center text-danger display-4 text-bold'>No <?= $title ?> To Show</td>
+                <td colspan="4" class='text-center text-danger display-4 text-bold'>No <?= $title ?> To Show</td>
               <?php }else{
               foreach ($specs as $specDate) {?>
               <tr class="text-center">
                 <td><?= $specDate[0] ?></td>
-                <td><img class="w-50" src="<?= !empty($specDate[3]) ? $specPath . $specDate[3] : $specPath . 'default.jpg' ?>" alt="<?= $specDate[1] . " [ " . $specDate[2] . " ] "  ?>"></td>
                 <td><?= $specDate[1] ?></td>
-                <td><?= $specDate[2] ?></td>
                 <td>
-                  <?php
-                            if($specDate[4] == '1'){echo "Active";}
-                            else{echo "Not Active";}
-                            ?>
-                </td>
-                <td><?= explode(' ' ,$specDate[5])[0] ?></td>
-                <?php if($specDate[6] != ''){$specDate[6] = explode(' ' ,$specDate[6])[0];} ?>
-                <td><?= $specDate[6] ?? 'Not Updated yet' ?></td>
-                <td>
-                  <a href="brand_operations.php?update=<?= $specDate[0] ?>" class="btn btn-info  mt-2">Update</a>
+                  <a href="spec_operations.php?update=<?= $specDate[0] ?>" class="btn btn-info  mt-2">Update</a>
                 </td>
                 <td>
-                  <a href="brand_operations.php?delete=<?= $specDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
+                  <a href="spec_operations.php?delete=<?= $specDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
                 </td>
               </tr>
               <?php }} ?>
@@ -80,12 +64,7 @@ $specs = $spec->read()->fetch_all();
             <tfoot>
               <tr class="text-center">
               <th>Id</th>
-                <th>Image</th>
-                <th>English Name</th>
-                <th>Arabic Name</th>
-                <th>Status</th>
-                <th>Created At</th>
-                <th>Updated At</th>
+                <th>Name</th>
                 <th>Update</th>
                 <th>Delete</th>
               </tr>
