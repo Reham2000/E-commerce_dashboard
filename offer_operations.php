@@ -66,8 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       }
     } else {
       if (empty($validation->getErrors())) {
-        $offer->settitle($_POST['title'])->setdiscount($_POST['discount'])->setImage(NULL)->setDiscount_type($_POST['discount_type'])->setStart_at($_POST['start_at'])->setEnd_at($_POST['end_at']);
-        if ($offer->setId($_GET['update'])->update()) {
+        $offer->settitle($_POST['title'])->setdiscount($_POST['discount'])->setDiscount_type($_POST['discount_type'])->setStart_at($_POST['start_at'])->setEnd_at($_POST['end_at']);
+        if ($offer->setId($_GET['update'])->updateWithoutImage()) {
           header("location:offer_operations.php?update={$_GET['update']}");
           die;
         } else {
