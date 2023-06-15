@@ -53,10 +53,10 @@ $specs = $spec->read()->fetch_all();
                 <td><?= $specDate[0] ?></td>
                 <td><?= $specDate[1] ?></td>
                 <td>
-                  <a href="spec_operations.php?update=<?= $specDate[0] ?>" class="btn btn-info  mt-2">Update</a>
+                  <a href="spec_operations.php?update=<?= $specDate[0] ?>" class="btn btn-info  mt-2"><i class="fas fa-edit"></i></a>
                 </td>
                 <td>
-                  <a href="spec_operations.php?delete=<?= $specDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
+                  <a href="spec_operations.php?delete=<?= $specDate[0] ?>" class="btn btn-danger  mt-2"><i class="fas fa-trash-alt"></i></a>
                 </td>
               </tr>
               <?php }} ?>

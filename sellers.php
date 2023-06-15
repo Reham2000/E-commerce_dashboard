@@ -81,10 +81,10 @@ $sellers = $seller->read()->fetch_all();
                 <?php if($sellerDate[13] != ''){$sellerDate[13] = explode(' ' ,$sellerDate[13])[0];} ?>
                 <td><?= $sellerDate[13] ?? 'Not Updated yet' ?></td>
                 <td>
-                  <a href="seller_operations.php?update=<?= $sellerDate[0] ?>" class="btn btn-info  mt-2">Update</a>
+                  <a href="seller_operations.php?update=<?= $sellerDate[0] ?>" class="btn btn-info  mt-2"><i class="fas fa-edit"></i></a>
                 </td>
                 <td>
-                  <a href="seller_operations.php?delete=<?= $sellerDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
+                  <a href="seller_operations.php?delete=<?= $sellerDate[0] ?>" class="btn btn-danger  mt-2"><i class="fas fa-trash-alt"></i></a>
                 </td>
               </tr>
               <?php } } ?>

@@ -10,7 +10,8 @@ class Coupon extends Model implements Crud
 
   }
   public function read(){
-
+    $query = "SELECT * FROM `coupons`";
+    return $this->conn->query($query);
   }
   public function update(){
 

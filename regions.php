@@ -76,10 +76,10 @@ $regions = $region->read()->fetch_all();
                 <?php if($regionDate[6] != ''){$regionDate[6] = explode(' ' ,$regionDate[6])[0];} ?>
                 <td><?= $regionDate[6] ?? 'Not Updated yet' ?></td>
                 <td>
-                  <a href="region_operations.php?update=<?= $regionDate[0] ?>" class="btn btn-info  mt-2">Update</a>
+                  <a href="region_operations.php?update=<?= $regionDate[0] ?>" class="btn btn-info  mt-2"><i class="fas fa-edit"></i></a>
                 </td>
                 <td>
-                  <a href="region_operations.php?delete=<?= $regionDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
+                  <a href="region_operations.php?delete=<?= $regionDate[0] ?>" class="btn btn-danger  mt-2"><i class="fas fa-trash-alt"></i></a>
                 </td>
               </tr>
               <?php } } ?>

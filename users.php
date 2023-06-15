@@ -78,10 +78,10 @@ $users = $user->read()->fetch_all();
                 <?php if($userDate[13] != ''){$userDate[13] = explode(' ' ,$userDate[13])[0];} ?>
                 <td><?= $userDate[13] ?? 'Not Updated yet' ?></td>
                 <td>
-                  <a href="user_operations.php?update=<?= $userDate[0] ?>" class="btn btn-info  mt-2">Update</a>
+                  <a href="user_operations.php?update=<?= $userDate[0] ?>" class="btn btn-info  mt-2"><i class="fas fa-edit"></i></a>
                 </td>
                 <td>
-                  <a href="user_operations.php?delete=<?= $userDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
+                  <a href="user_operations.php?delete=<?= $userDate[0] ?>" class="btn btn-danger  mt-2"><i class="fas fa-trash-alt"></i></a>
                 </td>
               </tr>
               <?php } }?>

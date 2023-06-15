@@ -1,16 +1,16 @@
 <?php
-$title = "Offers";
+$title = "Coupons";
 include "includes/init.php";
 include "includes/header.php";
 include "includes/navbar.php";
 include "includes/sidebar.php";
 
-use App\Database\Models\Offer;
+use App\Database\Models\Coupon;
 
-$offer = new Offer;
-$offers = $offer->read()->fetch_all();
+$coupon = new Coupon;
+$coupons = $coupon->read()->fetch_all();
 
-// print_r($offers);die;
+// print_r($coupons);die;
 
 ?>
 
@@ -30,7 +30,7 @@ $offers = $offer->read()->fetch_all();
         <div class="card-header">
           <h3 class="card-title">All <?= $title ?> In Our System</h3>
         </div>
-        <a href="offer_operations.php" class=" mx-5 w-25 btn btn-success  mt-2"> Add New Offer <i
+        <a href="coupon_operations.php" class=" mx-5 w-25 btn btn-success  mt-2"> Add New Coupon <i
             class="fas fa-user-plus pl-3"></i></a>
         <!-- /.card-header -->
         <div class="card-body">
@@ -38,10 +38,13 @@ $offers = $offer->read()->fetch_all();
             <thead>
               <tr class="text-center">
                 <th>Id</th>
-                <th>Image</th>
-                <th>Title</th>
+                <th>code</th>
                 <th>Discount</th>
                 <th>Discount Type</th>
+                <th>Max Discount Value</th>
+                <th>Max Useage</th>
+                <th>max Useage Per User</th>
+                <th>Mini Order</th>
                 <th>Start At</th>
                 <th>End At</th>
                 <th>Created At</th>
@@ -52,26 +55,29 @@ $offers = $offer->read()->fetch_all();
             </thead>
             <tbody>
             <?php
-              if(empty($offers)){ ?>
-                <td colspan="11" class='text-center text-danger display-4 text-bold'>No <?= $title ?> To Show</td>
+              if(empty($coupons)){ ?>
+                <td colspan="12" class='text-center text-danger display-4 text-bold'>No <?= $title ?> To Show</td>
               <?php }else{
-              foreach ($offers as $offerDate) {?>
+              foreach ($coupons as $couponDate) {?>
               <tr class="text-center">
-                <td><?= $offerDate[0] ?></td>
-                <td><img class="w-50" src="<?= !empty($offerDate[2]) ? $offerPath . $offerDate[2] : $offerPath . 'default.jpg' ?>" alt="<?= $offerDate[1] . " [ " . $offerDate[2] . " ] "  ?>"></td>
-                <td><?= ucwords($offerDate[1]) ?></td>
-                <td><?= $offerDate[3] ?> %</td>
-                <td><?= ucwords($offerDate[4]) ?></td>
-                <td><?= $offerDate[5]?></td>
-                <td><?= $offerDate[6] ?></td>
-                <td><?= explode(' ' ,$offerDate[7])[0] ?></td>
-                <?php if($offerDate[8] != ''){$offerDate[8] = explode(' ' ,$offerDate[8])[0];} ?>
-                <td><?= $offerDate[8] ?? 'Not Updated yet' ?></td>
+                <td><?= $couponDate[0] ?></td>
+                <td class="text-primary text-bold"><?= ucwords($couponDate[1]) ?></td>
+                <td><?= $couponDate[2] ?> %</td>
+                <td><?= ucwords($couponDate[3]) ?></td>
+                <td><?= $couponDate[4]?></td>
+                <td><?= $couponDate[5] ?></td>
+                <td><?= $couponDate[6] ?></td>
+                <td><?= $couponDate[7] ?></td>
+                <td><?= $couponDate[8] ?></td>
+                <td><?= $couponDate[9] ?></td>
+                <td><?= explode(' ' ,$couponDate[10])[0] ?></td>
+                <?php if($couponDate[11] != ''){$couponDate[11] = explode(' ' ,$couponDate[11])[0];} ?>
+                <td><?= $couponDate[11] ?? 'Not Updated yet' ?></td>
                 <td>
-                  <a href="offer_operations.php?update=<?= $offerDate[0] ?>" class="btn btn-info  mt-2"><i class="fas fa-edit"></i></a>
+                  <a href="coupon_operations.php?update=<?= $couponDate[0] ?>" class="btn btn-info  mt-2"><i class="fas fa-edit"></i></a>
                 </td>
                 <td>
-                  <a href="offer_operations.php?delete=<?= $offerDate[0] ?>" class="btn btn-danger  mt-2"><i class="fas fa-trash-alt"></i></a>
+                  <a href="coupon_operations.php?delete=<?= $couponDate[0] ?>" class="btn btn-danger  mt-2"><i class="fas fa-trash-alt"></i></a>
                 </td>
               </tr>
               <?php } } ?>
@@ -79,10 +85,13 @@ $offers = $offer->read()->fetch_all();
             <tfoot>
               <tr class="text-center">
               <th>Id</th>
-                <th>Image</th>
-                <th>Title</th>
+                <th>code</th>
                 <th>Discount</th>
                 <th>Discount Type</th>
+                <th>Max Discount Value</th>
+                <th>Max Useage</th>
+                <th>max Useage Per User</th>
+                <th>Mini Order</th>
                 <th>Start At</th>
                 <th>End At</th>
                 <th>Created At</th>

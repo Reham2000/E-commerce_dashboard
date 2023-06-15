@@ -78,10 +78,10 @@ $admins = $admin->read()->fetch_all();
                 <?php if($adminDate[13] != ''){$adminDate[13] = explode(' ' ,$adminDate[13])[0];} ?>
                 <td><?= $adminDate[13] ?? 'Not Updated yet' ?></td>
                 <td>
-                  <a href="admin_operations.php?update=<?= $adminDate[0] ?>" class="btn btn-info  mt-2">Update</a>
+                  <a href="admin_operations.php?update=<?= $adminDate[0] ?>" class="btn btn-info  mt-2"><i class="fas fa-edit"></i></a>
                 </td>
                 <td>
-                  <a href="admin_operations.php?delete=<?= $adminDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
+                  <a href="admin_operations.php?delete=<?= $adminDate[0] ?>" class="btn btn-danger  mt-2"><i class="fas fa-trash-alt"></i></a>
                 </td>
               </tr>
               <?php } }?>

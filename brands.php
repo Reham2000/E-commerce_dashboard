@@ -69,10 +69,10 @@ $brands = $brand->read()->fetch_all();
                 <?php if($brandDate[6] != ''){$brandDate[6] = explode(' ' ,$brandDate[6])[0];} ?>
                 <td><?= $brandDate[6] ?? 'Not Updated yet' ?></td>
                 <td>
-                  <a href="brand_operations.php?update=<?= $brandDate[0] ?>" class="btn btn-info  mt-2">Update</a>
+                  <a href="brand_operations.php?update=<?= $brandDate[0] ?>" class="btn btn-info  mt-2"><i class="fas fa-edit"></i></a>
                 </td>
                 <td>
-                  <a href="brand_operations.php?delete=<?= $brandDate[0] ?>" class="btn btn-danger  mt-2">Delete</a>
+                  <a href="brand_operations.php?delete=<?= $brandDate[0] ?>" class="btn btn-danger  mt-2"><i class="fas fa-trash-alt"></i></a>
                 </td>
               </tr>
               <?php }} ?>
