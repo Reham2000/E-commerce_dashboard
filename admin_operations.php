@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
       <div class="row p-3">
         <div class="col-md-5 col-sm-12 text-center my-5">
           <img src="<?= $dashboardImagesPath ?>add_user.png" alt="">
-          <h2 class="text-ingo text-center py-3"><?= isset($_GET['update']) ? 'Update' : 'Add' ?> Admin</h2>
+          <h2 class="text-ingo text-center py-3 text-capitalize"><?= isset($_GET['update']) ? 'Update' : 'Add' ?> Admin</h2>
         </div>
         <?php
         if (isset($_GET['update']) && is_numeric($_GET['update'])) {
