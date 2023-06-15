@@ -59,14 +59,14 @@ $offers = $offer->read()->fetch_all();
               <tr class="text-center">
                 <td><?= $offerDate[0] ?></td>
                 <td><img class="w-50" src="<?= !empty($offerDate[2]) ? $offerPath . $offerDate[2] : $offerPath . 'default.jpg' ?>" alt="<?= $offerDate[1] . " [ " . $offerDate[2] . " ] "  ?>"></td>
-                <td><?= $offerDate[1] ?></td>
-                <td><?= $offerDate[3] ?></td>
-                <td><?= $offerDate[4] ?></td>
-                <td><?= explode(' ' ,$offerDate[5])[0] ?></td>
-                <td><?= explode(' ' ,$offerDate[6])[0] ?></td>
+                <td><?= ucwords($offerDate[1]) ?></td>
+                <td><?= $offerDate[3] ?> %</td>
+                <td><?= ucwords($offerDate[4]) ?></td>
+                <td><?= $offerDate[5]?></td>
+                <td><?= $offerDate[6] ?></td>
                 <td><?= explode(' ' ,$offerDate[7])[0] ?></td>
-                <?php if($offerDate[6] != ''){$offerDate[6] = explode(' ' ,$offerDate[6])[0];} ?>
-                <td><?= $offerDate[6] ?? 'Not Updated yet' ?></td>
+                <?php if($offerDate[8] != ''){$offerDate[8] = explode(' ' ,$offerDate[8])[0];} ?>
+                <td><?= $offerDate[8] ?? 'Not Updated yet' ?></td>
                 <td>
                   <a href="offer_operations.php?update=<?= $offerDate[0] ?>" class="btn btn-info  mt-2">Update</a>
                 </td>

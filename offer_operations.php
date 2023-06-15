@@ -29,15 +29,19 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     }
     $validation->setInput('discount')->setValue($_POST['discount'])->isChanged($offerData->discount);
     if ($validation->getChanged() == '1') {
-      $validation->setInput('discount')->setValue($_POST['discount'])->required()->min(2)->max(32)->unique('offers','discount');
+      $validation->setInput('discount')->setValue($_POST['discount'])->required()->maxValue(100);
     }
     $validation->setInput('discount_type')->setValue($_POST['discount_type'])->isChanged($offerData->discount_type);
     if ($validation->getChanged() == '1') {
-      $validation->setInput('discount_type')->setValue($_POST['discount_type'])->required()->min(2)->max(32)->unique('offers','discount_type');
+      $validation->setInput('discount_type')->setValue($_POST['discount_type'])->required()->min(2)->max(32);
     }
-    $validation->setInput('status')->setValue($_POST['status'])->isChanged($offerData->status);
+    $validation->setInput('start_at')->setValue($_POST['start_at'])->isChanged($offerData->start_at);
     if ($validation->getChanged() == '1') {
-      $validation->setInput('status')->setValue($_POST['status'])->required()->in(['1', '2']);
+      $validation->setInput('start_at')->setValue($_POST['start_at'])->required();
+    }
+    $validation->setInput('end_at')->setValue($_POST['end_at'])->isChanged($offerData->end_at);
+    if ($validation->getChanged() == '1') {
+      $validation->setInput('end_at')->setValue($_POST['end_at'])->required()->after($_POST['start_at']);
     }
     if ($_FILES['image']['error'] == 0) {
       $imageService = new Media;
@@ -48,42 +52,37 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
           if(! is_null($offerData->image)){
             $imageService->delete($offerPath . $offerData->image);
           }
-          $offer->settitle($_POST['title'])->setdiscount($_POST['discount'])->setImage($imageService->getFileName());
+          $offer->settitle($_POST['title'])->setdiscount($_POST['discount'])->setImage($imageService->getFileName())->setDiscount_type($_POST['discount_type'])->setStart_at($_POST['start_at'])->setEnd_at($_POST['end_at']);
           if ($offer->update()) {
-            $message = "<div class='alert alert-success text-center p-1' role='alert'><h4>offer Updated Successfully</h4></div>";
+            $message = "<div class='alert alert-success text-center p-1' role='alert'><h4>Offer Updated Successfully</h4></div>";
             header("location:offer_operations.php?update={$_GET['update']}");
             die;
           } else {
-            $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
+            $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong1</h4></div>";
           }
         }
       } else {
         $imageError = "<p class='text-danger font-weight-bold'> Image is required </p>";
       }
     } else {
-      $offer->settitle($_POST['title'])->setdiscount($_POST['discount']);
-      if ($offer->updateWithoutImage()) {
-        header("location:offer_operations.php?update={$_GET['update']}");
-        die;
-      } else {
-        $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
+      if (empty($validation->getErrors())) {
+        $offer->settitle($_POST['title'])->setdiscount($_POST['discount'])->setImage(NULL)->setDiscount_type($_POST['discount_type'])->setStart_at($_POST['start_at'])->setEnd_at($_POST['end_at']);
+        if ($offer->setId($_GET['update'])->update()) {
+          header("location:offer_operations.php?update={$_GET['update']}");
+          die;
+        } else {
+          $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong2</h4></div>";
+        }
       }
+
     }
-    if (empty($validation->getErrors())) {
-      $offer->settitle($_POST['title'])->setdiscount($_POST['discount']);
-      if ($offer->setId($_GET['update'])->update()) {
-        header("location:offer_operations.php?update={$_GET['update']}");
-        die;
-      } else {
-        $error = "<div class='alert alert-danger text-center p-1' role='alert'><h4>Something Went Wrong</h4></div>";
-      }
-    }
+
   } else {
     $validation->setInput('title')->setValue($_POST['title'])->required()->min(2)->max(32)->unique('offers', 'title');
-    $validation->setInput('discount')->setValue($_POST['discount'])->required()->min(2)->max(32)->unique('offers', 'discount');
+    $validation->setInput('discount')->setValue($_POST['discount'])->required()->maxValue(100);
     $validation->setInput('discount_type')->setValue($_POST['discount_type'])->required()->min(2)->max(60);
     $validation->setInput('start_at')->setValue($_POST['start_at'])->required();
-    $validation->setInput('end_at')->setValue($_POST['end_at'])->required();
+    $validation->setInput('end_at')->setValue($_POST['end_at'])->required()->after($_POST['start_at']);
 
     if ($_FILES['image']['error'] == 0) {
       $imageService = new Media;
@@ -145,25 +144,43 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <?= $error ?? '' ?>
             <?= $message ?? '' ?>
             <div class="form-group">
-              <input type="text" name="title" id="" value="<?= $offerData->title ?>" class="form-control" placeholder="Enter offer English Name ...">
+              <input type="text" name="title" id="" value="<?= ucwords($offerData->title) ?>" class="form-control" placeholder="Enter Offer title ...">
               <?= $validation->getMessage('title') ?>
             </div>
             <div class="form-group">
-              <input type="text" name="discount" value="<?= $offerData->discount ?>" id="" class="form-control" placeholder="Enter offer Arabic Name ...">
+              <input type="text" name="discount" value="<?= $offerData->discount ?>" id="" class="form-control" placeholder="Enter Offer Discount ...">
               <?= $validation->getMessage('discount') ?>
             </div>
+            <div class="form-group">
+              <input type="text" name="discount_type" id="" value="<?= ucwords($offerData->discount_type) ?>" class="form-control" placeholder="Enter Offer Discount Type ...">
+              <?= $validation->getMessage('discount_type') ?>
+            </div>
+            <div class="form-group row">
+              <div class="col-2">
+                <label for="start_at" class="text-muted pt-2">Start At : </label>
+              </div>
+              <div class="col-10">
+                <input type="datetime-local" name="start_at" value="<?=  $offerData->start_at  ?>" id="start_at" class="form-control" placeholder="Enter Offer Start At ...">
+              </div>
+              <?= $validation->getMessage('start_at') ?>
+            </div>
+            <div class="form-group row">
+              <div class="col-2">
+                <label for="end_at" class="text-muted pt-2">Start At : </label>
+              </div>
+              <div class="col-10">
+                <input type="datetime-local" name="end_at" value="<?=  $offerData->end_at  ?>" id="end_at" class="form-control" placeholder="Enter Offer End At ...">
+              </div>
+              <?= $validation->getMessage('end_at') ?>
+            </div>
+
             <div class="form-group">
               <input type="file" name="image" class="form-control" id="">
               <?= $imageError ?? '' ?>
             </div>
-            <select name="status" id="" class="form-control mb-1">
-              <option selected disabled value>Select offer Status</option>
-              <option <?= $offerData->status == '1' ? 'selected' : '' ?> value="1">Active</option>
-              <option <?= $offerData->status == '2' ? 'selected' : '' ?> value="2">Not Active</option>
-            </select>
-            <?= $validation->getMessage('status') ?>
 
-            <input type="submit" value="Update offer" class="btn btn-info my-2 px-2">
+
+            <input type="submit" value="Update Offer" class="btn btn-info my-2 px-2">
           </form>
         <?php } else { ?>
           <form action="" method="post" enctype="multipart/form-data" class="col-md-7 col-sm-12 px-3 ">

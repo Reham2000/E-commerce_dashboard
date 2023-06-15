@@ -20,7 +20,10 @@ class Offer extends Model implements Crud
       return $this->conn->query($query);
     }
     public function update(){
-
+      $query = "UPDATE `offers` SET `title` = ?, `image` = ?, `discount` = ?, `discount_type` = ?, `start_at` = ?, `end_at` = ? WHERE `id`= ?";
+      $stmt = $this->conn->prepare($query);
+      $stmt->bind_param('ssssssi', $this->title, $this->image, $this->discount, $this->discount_type, $this->start_at, $this->end_at, $this->id);
+      return $stmt->execute();
     }
     public function delete(){
 
